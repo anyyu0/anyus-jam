@@ -33,7 +33,7 @@ export default function Auth() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            emailRedirectTo: `https://spotjam.vercel.app/`,
           },
         })
         if (error) throw error
