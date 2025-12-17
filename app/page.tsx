@@ -1,14 +1,16 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
-import DiaryEntryForm from '@/components/DiaryEntryForm'
-import DiaryList from '@/components/DiaryList'
-import TopPicksSection from '@/components/TopPicksSection'
+import { createBrowserClient } from '@supabase/ssr'
 
 export default function HomePage() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -37,24 +39,10 @@ export default function HomePage() {
   }
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-2">Welcome back!</h1>
-      <p className="text-gray-400 mb-8">Share what you've been listening to</p>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div>
-          <h2 className="text-xl font-bold mb-4">Add Diary Entry</h2>
-          <DiaryEntryForm userId={user.id} />
-          
-          <h2 className="text-xl font-bold mb-4 mt-8">Your Recent Entries</h2>
-          <DiaryList userId={user.id} />
-        </div>
-        
-        <div>
-          <h2 className="text-xl font-bold mb-4">Your Top Picks</h2>
-          <TopPicksSection userId={user.id} />
-        </div>
-      </div>
+    <div className="text-center py-10">
+      <h1 className="text-3xl font-bold mb-4">Welcome to anyu's jam!</h1>
+      <p className="text-gray-400 mb-6">You are logged in as {user.email}</p>
+      <p className="text-lg">Diary feature coming soon!</p>
     </div>
   )
 }
